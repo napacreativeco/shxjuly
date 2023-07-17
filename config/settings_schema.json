@@ -4,8 +4,36 @@
     "theme_name": "Sib Liquid",
     "theme_version": "10.0.0",
     "theme_author": "Throne",
-    "theme_documentation_url": "",
-    "theme_support_url": ""
+    "theme_documentation_url": "https:\/\/throne.work\/",
+    "theme_support_url": "https:\/\/throne.work\/"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:settings_schema.logo.settings.favicon.label",
+        "info": "t:settings_schema.logo.settings.favicon.info"
+      }
+    ]
+  },
+  {
+    "name": "Navbar",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "navbar_logo",
+        "label": "Logo",
+        "info": "The main logo image."
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_icon",
+        "label": "Cart Icon",
+        "info": "The cart gif image"
+      }
+    ]
   },
   {
     "name": "Cart",
@@ -47,6 +75,67 @@
         "label": "Show Marquee",
         "default": true,
         "info": "Check the box if you would like to show the marquee"
+      }
+    ]
+  },
+  {
+    "name": "Newsletter Popup",
+    "settings": [
+      {
+        "type": "text",
+        "id": "newsletter_title",
+        "default": "newsletter",
+        "label": "Title",
+        "info": "The title of the Newsletter Popup"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_warning",
+        "default": "WARNING: SEVERE NECESSITY, \n IMMEDIATE ACTION REQUIRED",
+        "label": "Warning label",
+        "info": "The warning label on the Newsletter Popup"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_input_placeholder",
+        "default": "your email",
+        "label": "Input Placeholder",
+        "info": "The placeholder within the email input"
+      }
+    ]
+  },
+  {
+    "name": "Size Chart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "size_chart_title",
+        "default": "size chart",
+        "label": "Label",
+        "info": "The label that opens the Size Chart on a Product Page"
+      }
+    ]
+  },
+  {
+    "name": "Contact Form",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_form_success",
+        "default": "understood, \n we will be in touch.",
+        "label": "Success Message",
+        "info": "The message that shows on a successful submission. To create a New Line, use the '\\n' symbol"
+      }
+    ]
+  },
+  {
+    "name": "404",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "fourohfour_image",
+        "label": "Image",
+        "info": "The main image on the 404 page"
       }
     ]
   }
