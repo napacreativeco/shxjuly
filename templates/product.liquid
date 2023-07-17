@@ -45,7 +45,13 @@
           </div>
 
           <div class="size-holder">
-            {% render 'og--product-variant-selector' %}
+            <div class="size">
+              {% render 'new--product-variant-radios' %}
+            </div>
+
+            <div class="color">
+              {% render 'new--product-variant-radios' %}
+            </div>
           </div>
 
           <div class="button-holder">
@@ -218,6 +224,7 @@ var selectCallback = function(variant, selector) {
   
 jQuery(function($) {
 
+  //new Shopify.OptionSelectors('product-select', { product: {{ product | json }}, onVariantSelected: selectCallback, enableHistoryState: true });
   new Shopify.OptionSelectors('product-select', { product: {{ product | json }}, onVariantSelected: selectCallback, enableHistoryState: true });
   
   // Add label if only one product option and it isn't 'Title'.

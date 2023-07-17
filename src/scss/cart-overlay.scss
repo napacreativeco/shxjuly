@@ -26,6 +26,7 @@
         display: block;
         width: 100%;
         max-width: var(--thin);
+        margin: 0 auto;
     }
 
     .cart-header {
@@ -236,6 +237,7 @@
                 border: var(--border-blk);
                 padding: 10px 20px;
                 text-decoration: none;
+                font-family: inherit;
             }
 
             .checkout-button:hover {

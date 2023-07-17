@@ -33,19 +33,21 @@
                 </div>
 
                 <div class="quantity">
-                  <a data-ajax-cart-request-button
-                    href="{{ routes.cart_change_url }}?line={{ item_index }}&quantity={{ item.quantity | minus: 1 }}" > 
-                    {{ '-' | escape }}
-                  </a>
+                  <div class="quantity-wrapper">
+                    <a data-ajax-cart-request-button
+                      href="{{ routes.cart_change_url }}?line={{ item_index }}&quantity={{ item.quantity | minus: 1 }}" > 
+                      {{ '-' | escape }}
+                    </a>
 
-                  <input data-ajax-cart-quantity-input="{{ item_index }}"
-                    name="updates[]" 
-                    value="{{ item.quantity }}" 
-                    type="number" />
+                    <input data-ajax-cart-quantity-input="{{ item_index }}"
+                      name="updates[]" 
+                      value="{{ item.quantity }}" 
+                      type="number" />
 
-                  <a data-ajax-cart-request-button href="{{ routes.cart_change_url }}?line={{ item_index }}&quantity={{ item.quantity | plus: 1 }}"> 
-                    {{ '+' | escape }}
-                  </a>
+                    <a data-ajax-cart-request-button href="{{ routes.cart_change_url }}?line={{ item_index }}&quantity={{ item.quantity | plus: 1 }}"> 
+                      {{ '+' | escape }}
+                    </a>
+                  </div>
                 </div>
 
                 <div class="variants size">
@@ -101,9 +103,12 @@
           </div>
         </div>
 
-        <button type="submit" name="checkout">
-          {{ 'CHECKOUT' | escape }} ({{ cart.item_count }})
-        </button> 
+        <div class="buttons">
+          <button class="checkout-button" type="submit" name="checkout">
+            {{ 'CHECKOUT' | escape }} ({{ cart.item_count }})
+          </button> 
+        </div>
+
       </div>
 
     {% else %}
