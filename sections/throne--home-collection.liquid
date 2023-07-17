@@ -1,8 +1,8 @@
 <section class="shop-component page-component">
   <div class="shop-component-wrapper" data-layout="grid">
 
-    {% render 'throne-grid-changer' %}
-    {% render 'throne-collection-pagination' %}
+    {% render 'throne--grid-changer' %}
+    {% render 'throne--collection-pagination' %}
 
     <ul class="products-grid grid">
       {%- for product in section.settings.collection.products limit: 16 -%}

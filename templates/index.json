@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "hero": {
+      "type": "throne--home-hero",
+      "settings": {}
+    },
+    "home_collection": {
+      "type": "throne--home-collection",
+      "settings": {
+        "collection": "frontpage"
+      }
+    },
+    "contact": {
+      "type": "homepage-contact",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "homepage-newsletter-modal",
+      "settings": {
+      }
+    },
+    "about": {
+      "type": "throne-about-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "home_collection",
+    "contact",
+    "newsletter",
+    "about"
+  ]
+}
