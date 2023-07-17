@@ -65,14 +65,14 @@
         <div class="contact-form-fields grouped-fields">
   
           <div class="field-holder half-width">
-            <input class="" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}">
+            <input class="" autocomplete="name" type="text" id="ContactForm-name" name="contact[name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="name">
             <label class="" for="ContactForm-name">
               name
             </label>
           </div>
   
           <div class="field-holder half-width">
-            <input autocomplete="email"  type="email" id="ContactForm-email" class="" name="contact[email]" spellcheck="false" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" aria-required="true" {% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="ContactForm-email-error"{% endif %} placeholder="{{ 'templates.contact.form.email' | t }}">
+            <input autocomplete="email"  type="email" id="ContactForm-email" class="" name="contact[email]" spellcheck="false" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" aria-required="true" {% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="ContactForm-email-error"{% endif %} placeholder="email">
             <label class="" for="ContactForm-email">
               email
               <span aria-hidden="true">*</span>
