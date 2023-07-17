@@ -1,0 +1,306 @@
+.shop-component {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+    padding-bottom: 80px;
+
+    .sale-indicator > span {
+        position: absolute;
+        left: -2.1rem;
+        top: 0.2rem;
+        color: var(--red);
+        font-style: italic;
+        font-size: var(--10px);
+        letter-spacing: 1px;
+        text-transform: lowercase;
+    }
+
+    .shop-component-wrapper {
+        width: 100%;
+        max-width: var(--thin);
+        position: relative;
+
+        .pagination {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            text-transform: lowercase;
+        }
+
+        .sale-indicator {
+            color: var(--red);
+            font-style: italic;
+            font-size: var(--10px);
+        }
+
+        /*
+            Grid View
+        */
+        .products-grid.grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            animation: popUp 0.4s ease-in-out;
+
+            li.item {
+                img {
+                    max-width: 100%;
+                }
+    
+                a {
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    text-decoration: underline;
+                }
+
+                .product-data {
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    gap: 8px;
+    
+                    .vendor {
+                        span {
+                            font-family: var(--mingliu);
+                            font-size: var(--12px);
+                        }
+                    }
+                    .name {
+                        h3 {
+                            margin: 4px 0 4px 0;
+                            font-family: var(--mingliu);
+                            font-size: var(--12px);
+                        }
+                    }
+                    .price {
+                        a {
+                            font-size: var(--12px);
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+        /*
+            Dual View
+        */ 
+        .products-grid.dual {
+            display: none;
+            width: 100%;
+            animation: popUp 0.4s ease-in-out;
+
+            .dual-wrapper {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 20px;
+                flex-wrap: wrap;
+                
+                li.item {
+                    width: calc(50% - 20px);
+
+                    img {
+                        max-width: 100%;
+                    }
+        
+                    a {
+                        text-decoration: none;
+                    }
+    
+                    a:hover {
+                        text-decoration: underline;
+                    }
+    
+                    .product-data {
+    
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                        gap: 8px;
+        
+                        .vendor {
+                            span {
+                                font-family: var(--mingliu);
+                                font-size: var(--12px);
+                            }
+                        }
+                        .name {
+                            h3 {
+                                margin: 4px 0 4px 0;
+                                font-family: var(--mingliu);
+                                font-size: var(--12px);
+                            }
+                        }
+                        .price {
+                            a {
+                                font-size: var(--12px);
+                            }
+                        }
+    
+                    }
+                }
+
+            }
+        }
+
+        /*
+            List View
+        */
+        .products-grid.list {
+            display: none;
+            animation: popUp 0.4s ease-in-out;
+
+            li > .list-item-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+                grid-gap: 20px;
+                align-items: center;
+
+                a { text-decoration: none; }
+
+                a:hover { text-decoration: underline; }
+
+                .image img {
+                    width: 80px;
+                    max-width: 100%;
+                }
+
+                .titles {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: 20px;
+
+                    .vendor {
+                        span {
+                            font-family: var(--mingliu);
+                            font-size: var(--12px);
+                        }
+                    }
+    
+                    .name {
+                        h3 {
+                            margin: 4px 0 4px 0;
+                            font-family: var(--mingliu);
+                            font-size: var(--12px);
+                        }
+                    }
+
+                }
+
+                .price {
+                    text-align: center;
+                }
+
+                .indicator-holder {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .colors {
+                    display: flex;
+                    justify-content: center;
+                }
+                .color-wrapper {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 12px;
+                }
+
+            }
+        }
+
+    }
+
+    /* 
+        Switching between list and grid
+    */
+    // .shop-component-wrapper[data-layout="grid"] {
+    //     ul.products.grid { display: grid; }
+    //     ul.products.dual { display: none; }
+    //     ul.products.list { display: none; }
+    // }
+    // .shop-component-wrapper[data-layout="list"] {
+    //     ul.products.grid { display: none; }
+    //     ul.products.dual { display: none; }
+    //     ul.products.list { display: grid; }
+    // }
+    // .shop-component-wrapper[data-layout="dual"] {
+    //     ul.products.grid { display: none; }
+    //     ul.products.list { display: none; }
+    //     ul.products.dual { display: grid; }
+    // }
+
+}
+
+
+/*
+------------------------------------------------------------------------------------
+*/
+@media screen and (max-width: 767px) {
+    .shop-component .colors {
+        display: none !important;
+    }
+
+    .shop-component {
+        .shop-component-wrapper {
+
+            .pagination {
+                padding: 0 20px 0 0;
+                top: -3px;
+            }
+
+            ul.products-grid.grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 20px;
+            }
+
+            ul.products-grid.list {
+                font-size: 14px;
+                padding: 20px;
+
+                li > .list-item-wrapper {
+                    grid-template-columns:  1fr 2fr 1fr;
+                    grid-gap: 10px;
+                    font-size: var(--12px);
+
+                    .titles {
+                        grid-template-columns: 1fr;
+                        grid-gap: 0px;
+                    }
+
+                    .price  {
+                        display: none;
+                    }
+
+                    .indicator-holder {
+                        justify-content: flex-end;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    .grid-changer {
+        margin: 16px 0 30px 0;
+
+        .grid-changer-wrapper {
+            padding: 0 20px;
+        }
+    }
+}

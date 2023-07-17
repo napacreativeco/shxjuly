@@ -1,0 +1,14 @@
+{% if collection %}
+      {% if collection.previous_product or collection.next_product %}
+      <div>     
+      {% if collection.previous_product %}
+        {% capture prev_url %}{{ collection.previous_product}}#content{% endcapture %}
+        <span class="left">{{ 'Previous Product' | link_to: prev_url }}</span>
+      {% endif %}
+      {% if collection.next_product %}
+        {% capture next_url %}{{ collection.next_product}}#content{% endcapture %}
+        <span class="right">{{ 'Next Product' | link_to: next_url }}</span>
+      {% endif %}
+      </div>
+      {% endif %}
+    {% endif %}

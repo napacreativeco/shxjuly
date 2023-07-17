@@ -1,0 +1,137 @@
+<form action="{{ routes.cart_url }}" method="post" class="my-cart">
+
+  <div class="cart-header">
+    <div class="cart-name">
+      <h1>{{ 'Cart' | escape }}</h1>
+    </div>
+  </div>
+
+  <div class="cart-overlay-wrapper" data-ajax-cart-section>
+
+    {% if cart.item_count > 0 %}
+
+      <div class="cart">
+
+        <ul class="cart-items" data-ajax-cart-section-scroll>
+          {% for item in cart.items %}
+            {% assign item_index = forloop.index %}
+            
+            <li class="cart-item">
+              <div class="cart-item-wrapper">
+
+                <div class="image">
+                  {% if item.image %}
+                    <img src="{{ item.image | image_url: width: 300 }}" alt="{{ item.image.alt | escape }}" />
+                  {% endif %}
+                </div>
+
+                <div class="product-title">
+                  <a href="{{ item.url }}">
+                    <span class="vendor">{{ item.product.vendor }}</span>
+                    <span class="product">{{- item.product.title | escape -}}</span>
+                  </a>
+                </div>
+
+                <div class="quantity">
+                  <a data-ajax-cart-request-button
+                    href="{{ routes.cart_change_url }}?line={{ item_index }}&quantity={{ item.quantity | minus: 1 }}" > 
+                    {{ '-' | escape }}
+                  </a>
+
+                  <input data-ajax-cart-quantity-input="{{ item_index }}"
+                    name="updates[]" 
+                    value="{{ item.quantity }}" 
+                    type="number" />
+
+                  <a data-ajax-cart-request-button href="{{ routes.cart_change_url }}?line={{ item_index }}&quantity={{ item.quantity | plus: 1 }}"> 
+                    {{ '+' | escape }}
+                  </a>
+                </div>
+
+                <div class="variants size">
+                  {%- if item.product.has_only_default_variant == false or item.properties.size != 0 or item.selling_plan_allocation != null -%}
+
+                    {%- if item.product.has_only_default_variant == false -%}
+                      {%- for option in item.options_with_values -%}
+                        {% case option.name %}
+
+                          {% when 'Size' %}
+                            <span class="product-option">
+                              {{ option.value }}
+                            </span>
+
+                        {% endcase %}
+                      {%- endfor -%}
+                    {%- endif -%}
+
+                  {%- endif -%}
+                </div>
+
+                <div class="variants color">
+                  <div class="color-wrapper">
+                    <span class="color-swatch" style="background: {{ item.variant.metafields.custom.display_color.value }}">
+                      &nbsp;
+                    </span>
+                  </div>
+                </div>
+
+                <div class="delete">
+                  <a data-ajax-cart-request-button href="{{ item.url_to_remove }}" rel="{{ item.id }}">
+                    {{ 'delete' | escape }}
+                  </a>
+                </div>
+
+              </div>
+            </li>
+
+            <div data-ajax-cart-messages="{{ item.key }}"></div>
+          {% endfor %}
+        </ul>
+
+        <div class="subtotal">
+          <div class="subtotal-wrapper">
+            <div class="left">
+              <span>{{ 'Subtotal' | escape }}</span>
+            </div>
+            <div class="right">
+              <span>{{ cart.total_price | money_without_trailing_zeros | remove: '$' }}
+                <span style="text-transform: uppercase;">{{ shop.currency }}</span>
+                </span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" name="checkout">
+          {{ 'CHECKOUT' | escape }} ({{ cart.item_count }})
+        </button> 
+      </div>
+
+    {% else %}
+
+      <div class="empty-cart">
+
+        <div class="empty-cart-text">
+          <h2>
+            {{ settings.empty_cart_text | default: 'Your cart is empty.' | newline_to_br }}
+          </h2>
+        </div>
+
+        <div class="continue-shopping">
+          <a href="{{ routes.all_products_collection_url }}">
+            {{ 'CONTINUE SHOPPING' | escape }}
+          </a>
+        </div>
+  
+      </div>
+      
+    {% endif %}
+
+  </div>
+</form>
+
+{% schema %} 
+{ 
+  "name": "My Cart",
+  "class": "cart-section"
+} 
+{% endschema %}

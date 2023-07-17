@@ -1,0 +1,190 @@
+.lookbook-blog {
+
+    .lookbook-blog-wrapper {
+        animation: slideDown  0.3s ease-in-out forwards;
+        padding: 50px 0 40px 0;
+        width: 100%;
+        max-width: var(--thin);
+        margin: 0 auto;
+        overflow-x: hidden;
+
+        /* Header */
+        .selector-holder {
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 6px;
+            border: 0px;
+            position: relative;
+            z-index: 3;
+            transform: translateY(34px);
+            
+            select {
+                text-transform: lowercase;
+            }
+
+            option {
+                text-transform: lowercase;
+            }
+
+            select::-ms-expand {
+                display: none;
+            }
+
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border: 0px;
+                font-size: var(--14px);
+                font-family: inherit;
+                width: auto;
+                padding-right: 10px;
+                cursor: pointer;
+            }
+
+            .icon {
+                position: absolute;
+                top: 50%;
+                right: -5px;
+                transform: translateY(-50%);
+                pointer-events: none;
+                svg { 
+                    width: 10px;
+                }
+            }
+        }
+
+        /* Post */
+        .swiper {
+            padding-top: 20px;
+
+            .swiper-header {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                margin: 0 0 15px 0;
+                min-height: 15px;
+
+                .slider-nav-link {
+                    position: relative;
+                    top: 0;
+                    margin-top: 0;
+                    height: auto;
+                    right: 0;
+                    left: 0;
+                }
+
+                .slider-nav-link:hover {
+                    text-decoration: underline;
+                }
+
+                .swiper-button-next {
+                    color: inherit;
+                }
+
+                .swiper-button-prev {
+                    color: inherit;
+                }
+                .swiper-button-next::after {
+                    display: none;
+                }
+
+                .swiper-button-prev::after {
+                    display: none;
+                }
+
+                .swiper-pagination {
+                    position: relative;
+                    text-align: center;
+                    width: 40px;
+                    top: 0;
+                    bottom: 0;
+                    padding: 0px;
+                }
+
+            }
+
+            .swiper-wrapper {
+
+                .swiper-slide {
+                    width: 100%;
+                    max-width: 100%;
+                    height: auto;
+                    display: grid;
+                    grid-template-rows: 6fr 2fr;
+                    
+                    .image {
+                        aspect-ratio: 16/13;
+                        cursor: grab;
+                    }
+
+                    .image:active {
+                        cursor: grabbing;
+                    }
+
+                    .caption {
+                        padding: 20px 0 0 0;
+        
+                        p {
+                            font-size: var(--14px);
+                            margin: 0;
+                            line-height: 1.4;
+                            letter-spacing: 0px;
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+        article.article-component {
+            display: none;
+        }
+
+        article.article-component:first-of-type {
+            display: block;
+        }
+
+    }
+
+}
+
+.lookbook-page {
+    padding-top: 140px;
+    width: 100%;
+    max-width: var(--thin);
+    margin: 0 auto;
+}
+
+.lookbook-section {
+    // display: none;
+}
+
+
+@media screen and (max-width: 767px) {
+    .lookbook-blog {
+
+        .lookbook-blog-wrapper {
+            padding: 50px 10px 20px 10px;
+
+            .swiper {
+                .swiper-wrapper {
+    
+                    .swiper-slide {
+                        
+                        .image {
+                            aspect-ratio: 3/5;
+                        }
+    
+                    }
+    
+                }
+            }
+        }   
+
+    }
+}

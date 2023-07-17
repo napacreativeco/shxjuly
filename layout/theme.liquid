@@ -44,80 +44,91 @@
   {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
   <script>jQuery('html').removeClass('no-js').addClass('js');</script>
 
+  {{ 'throne.css' | asset_url | stylesheet_tag }}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 </head>
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
   
-  <header>
-    {% comment %}
-      Note on checkout link: it is a good idea to avoid linking to /checkout directly because shops that use 
-      Paypal Express Checkout and/or Google Checkout have special checkout buttons on the /cart page. Also,
-      special instructions for the seller are entered on the /cart page. Finally, the universal tracking code 
-      of Google Analytics may not work if linking directly to the /checkout page.
-    {% endcomment %}
-    
-    <a href="/cart">{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }} ({{ cart.total_price | money }})</a>
-          
-    {% if shop.customer_accounts_enabled %}
-      {% if customer %}
-        Logged in as <a href="/account">{{ customer.first_name }}</a> · {{ 'Log out' | customer_logout_link }}
-      {% else %}
-        {{ 'Log in' | customer_login_link }}
-        {% if shop.customer_accounts_optional %}
-        or {{ 'Create an account' | customer_register_link }}
-        {% endif %}
-      {% endif %}
-    {% endif %}
-    
-    {% comment %}
-      It would be nice if the logo was a shop setting, rather than a theme setting.
-      But for now, it is a theme setting. The shop logo is uploaded on the theme settings page.
-      Link to the theme settings page of currently published theme will always be:
-      http://www.shopify.com/admin/themes/current/settings.
-      To add theme settings to a theme, see this: http://docs.shopify.com/themes/theme-templates/settings
-      Theme settings are added to http://www.shopify.com/admin/themes/current#config/settings.html
-    {% endcomment %}
-
-    {% if settings.use_logo %}
-      <a id="logo" href="/">
-        {{ 'logo.png' | asset_url | img_tag: shop.name }}
-      </a>
-    {% else %}
-      <a id="site-title" href="/">
-        {{ shop.name }}
-      </a>
-    {% endif %}
-
-    {% comment %}
-      Main Navigation 
-    {% endcomment %}
-    {% include 'site-nav' %}
-
-  </header>
-
   {% comment %}
-    IE8 and IE9 don't support the HTML5 placeholder attribute, so it's a good idea to use JavaScript
-    to show and hide the placeholder text.
-    Have a look in assets/shop.js.liquid to see sample JavaScript for this.
-  {% endcomment %}      
-  <form action="/search" method="get" class="search-form right" role="search">
-    <input name="q" type="search" id="search-field" placeholder="Search store..." value="{{ search.terms | escape }}" />
-    <input type="submit" id="search-submit" value="Search" />
-  </form>
-
-  {% comment %}}
-    We have a template file to render.
-    That's what content_for_layout is for.
+  ------------------------------------------------------------------------
+  AJAX CART [config]
+  ------------------------------------------------------------------------
   {% endcomment %}
+  <script type="application/json" data-ajax-cart-initial-state >
+    {{ cart | json }}
+  </script>
+  
+  <script type="module">
+    import '{{ "liquid-ajax-cart-v1.11.0.js" | asset_url }}';
+  </script>
+
+  <style>
+    .my-cart__items { 
+      opacity: 1;
+      transition: opacity .2s;
+    }
+    /* Make the area with controls visually disabled */
+    body.js-ajax-cart-request-in-progress .my-cart__items {
+      opacity: .7;
+    }
+    /* Make the submit button visually disabled */
+    form.js-ajax-cart-form-in-progress [type="submit"] {
+      opacity: .7;  
+    }
+    /* Show a loading indicator */
+    form.js-ajax-cart-form-in-progress:after { 
+      content: 'Adding to cart…'
+      display: block; 
+    }
+    /* Cart Modal */
+    .my-floating-cart { display: none; }
+    /* Show the floating cart if the 'js-my-cart-open' CSS class exists */
+    .js-my-cart-open .my-floating-cart { display: block; }
+  </style>
+
+  <script type="module">
+    import { subscribeToCartSectionsUpdate } from '{{ "liquid-ajax-cart-v1.11.0.js" | asset_url }}'
+
+    subscribeToCartSectionsUpdate( sections => {
+      console.log('Sections are updated: ', sections);
+      // Place your code here
+    });
+  </script>
+
+  <script type="application/json" data-ajax-cart-configuration >
+    {
+      "addToCartCssClass": "js-my-cart-open"
+    }
+  </script>
+  {% comment %}
+  ------------------------------------------------------------------------
+  end: AJAX CART [config]
+  ------------------------------------------------------------------------
+  {% endcomment %}
+
+  <div class="cart-overlay my-floating-cart">
+    {% section 'throne-cart' %}
+  </div>
+
+  {% render 'throne-navbar' %}
+  {% render 'throne-footer-menu' %}
+
   <main role="main">
     {{ content_for_layout }}
   </main>
 
-  <footer>
-    Copyright &copy; {{ "now" | date: "%Y" }} {{ shop.name }}. {{ powered_by_link }}.
-  </footer>
+  <script src="{{ 'gsap.min.js' | asset_url }}"></script>
+  <script src="{{ 'gsap-scrollTo.min.js' | asset_url }}"></script>
+  <script src="{{ 'gsap-scrollTrigger.min.js' | asset_url }}"></script>
+  <script src="{{ 'gsap-draggable.min.js' | asset_url }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.5.1/dist/simpleParallax.min.js"></script>
+  <script src="{{ 'throne.js' | asset_url }}"></script>
 
+  {% comment %}
   {{ 'shop.js'  | asset_url | script_tag }}
+  {% endcomment %}
 
 </body>
 

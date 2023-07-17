@@ -2,127 +2,170 @@
 {% assign sold_out = 'Sold Out' %}
 {% assign unavailable = 'Unavailable' %}
 
-<div itemscope itemtype="http://schema.org/Product">
-  
+<div class="single-product" itemscope itemtype="http://schema.org/Product">
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
-  <meta itemprop="image" content="{{ product | img_url: 'grande' }}" />
+  <meta itemprop="image" content="{{ product | image_url: width: 900 }}" />
   
   <form action="/cart/add" method="post" enctype="multipart/form-data">
-    
-    {% if product.images.size == 0 %}
-  
-      <img src="{{ '' | img_url: 'grande' }}" alt="" />
-    
-    {% else %}
-    
-      {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
-      <a href="{{ featured_image | img_url: '1024x1024' }}">
-        <img src="{{ featured_image | img_url: 'grande' }}" alt="{{ product.title | escape }}" />
-      </a>
+    <div class="single-product-wrapper">
 
-      {% if product.images.size > 1 %}
-        <ul>
-          {% for image in product.images %}
-            <li>
-              <a href="{{ image | img_url: '1024x1024' }}">
-                <img src="{{ image | img_url: 'large' }}" alt="{{ image.alt | escape }}" />
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    
-    {% endif %}
-    
-      <h1>{{ product.title }}</h1>
-      
-      {% assign product_vendor_handle = product.vendor | handle %}
-      {% comment %}
-      Do we have a collection that has the same name as our product vendor name?
-      If we do, let's have the vendor link point to it.
-      If not, we will point to the automatic vendor collection.
-      {% endcomment %}
-      {% if collections[product_vendor_handle].handle == product_vendor_handle %}
-        {% assign vendor_url = collections[product_vendor_handle].url %}
-      {% else %}
-        {% assign vendor_url = product.vendor | url_for_vendor %}
-      {% endif %}
-      <h2 itemprop="brand">{{ product.vendor | link_to: vendor_url }}</h2>
-      
-      <div itemprop="description">
-        {{ product.description }}
-      </div>
-      
-      {% comment %}
-        All themes by Shopify should support the Product Reviews app out of the box.
-        https://apps.shopify.com/product-reviews
-      {% endcomment %}
-      <div id="shopify-product-reviews" data-id="{{ product.id }}">{{ product.metafields.spr.reviews }}</div>
-      
-      <div id="product-price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-        <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
-        {% if product.available %}
-        <link itemprop="availability" href="http://schema.org/InStock" />
-        {% else %}
-        <link itemprop="availability" href="http://schema.org/OutOfStock" />
-        {% endif %}
-        <p>
-          {% assign variant = product.selected_or_first_available_variant %}
-          {% if product.compare_at_price > product.price %}
-          <span class="product-price on-sale" itemprop="price">{{ variant.price | money }}</span>
-          <s class="product-compare-price">{{ variant.compare_at_price | money }}</s>
-          {% else %}
-          <span class="product-price" itemprop="price">{{ variant.price | money }}</span>
-          {% endif %}
-        </p>
-      </div>
-      
-      {% assign hide_default_title = false %}
-      {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-        {% assign hide_default_title = true %}
-      {% endif %}       
+      <div class="left-side">
 
-      <div id="product-variants" class="{% if hide_default_title %} hidden{% endif %}">
-        <select id="product-select" name="id">
-        {% for variant in product.variants %}
-          <option{% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">
-          {{ variant.title }} - {{ variant.price | money }}
-          </option>
-        {% endfor %}
-        </select>
-      </div>        
-             
-      <div id="backorder" class="hidden">
-        <p>{{ '%s is back-ordered. We will ship it separately in 10 to 15 days.' | replace: '%s', '<span id="selected-variant"></span>' }}</p>
-      </div>
-        
-      <div id="product-add">
-        <input type="submit" name="add" id="add" value="{{ add_to_cart | escape }}">
-      </div>
-      
-      {% if collection %}
-        {% if collection.previous_product or collection.next_product %}
-        <div>     
-        {% if collection.previous_product %}
-          {% capture prev_url %}{{ collection.previous_product}}#content{% endcapture %}
-          <span class="left">{{ 'Previous Product' | link_to: prev_url }}</span>
-        {% endif %}
-        {% if collection.next_product %}
-          {% capture next_url %}{{ collection.next_product}}#content{% endcapture %}
-          <span class="right">{{ 'Next Product' | link_to: next_url }}</span>
-        {% endif %}
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            {% for image in product.media %}
+
+              <div class="swiper-slide">
+                <img src="{{ image | image_url: width: 1200 }}" alt="{{ image.alt | escape }}" />
+              </div>
+
+            {% endfor %}
+          </div>
+
+          <div class="swiper-controls">
+            <div class="swiper-pagination"></div>
+          </div>
+
         </div>
-        {% endif %}
-      {% endif %}
 
+      </div>
+
+      <div class="right-side">
+        {%- assign product_form_id = 'product-form-' | append: product.id -%}
+
+        <div class="product-title desktop">
+          <h1>{{ product.vendor }} / {{ product.title }}</h1>
+        </div>
+
+        <div class="actions-header">
+
+          <div class="price-holder">
+            {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros | remove: '$' }}
+            <span style="text-transform: uppercase;">{{ shop.currency }}</span>
+          </div>
+
+          <div class="size-holder">
+            {% render 'og--product-variant-selector' %}
+          </div>
+
+          <div class="button-holder">
+            <button type="submit" name="checkout">
+              {{ 'ADD TO CART' | escape }}
+            </button> 
+          </div>
+
+        </div>
+
+        <div class="product-title mobile">
+          <h1>{{ product.vendor }} / {{ product.title }}</h1>
+        </div>
+
+        <div class="product-description">
+          <span class="description-title">{{ 'about' | escape }}</span>
+          <p>{{ product.description }}</p>
+        </div>
+
+        <div class="size-chart">
+          <details>
+            <summary>
+              <div class="size-chart-title">
+                <h3>{{ settings.size_chart_title | default: 'size chart' }}</h3>
+              </div>
+            </summary>
+
+            <div class="content">
+              <table class="size-chart-table">
+                <thead>
+                  <tr>
+                    <th class="legend">label:</th>
+                    {% for option in product.options_with_values %}
+
+                      {% case option.name %}
+                        {% when 'Size' %}
+
+                        {% for value in option.values %}
+                          <th>{{ value }}</th>
+                        {% endfor %}
+                      {% endcase %}
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="legend">chest:</td>
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.s_chest }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.m_chest }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.l_chest }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.xl_chest }}</td>
+                    {% endfor %}
+                  </tr>
+                  <tr>
+                    <td class="legend">waist:</td>
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.s_waist }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.m_waist }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.l_waist }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.xl_waist }}</td>
+                    {% endfor %}
+                  </tr>
+                  <tr>
+                    <td class="legend">shoulder:</td>
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.s_shoulder }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.m_shoulder }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.l_shoulder }}</td>
+                    {% endfor %}
+                    {% for size in shop.metaobjects.size_chart.values %}
+                      <td>{{ size.xl_shoulder }}</td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+
+          </details>
+        </div>
+
+        {% render 'throne-product-pagination' %}
+
+      </div>
+
+    </div>
   </form>
-
 </div>
 
-{% comment %}
-  Adding support for product options. See here for details:  
-  http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options
-{% endcomment %}
+
+  {% comment %}
+  Swiper
+  {% endcomment %}
+  <script>
+    const swiper = new Swiper('.swiper', {
+      direction: 'horizontal',
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      }
+    });
+  </script>
 
 <script>
   

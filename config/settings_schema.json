@@ -1,19 +1,52 @@
 [
   {
-    "name": "Welcome",
+    "name": "theme_info",
+    "theme_name": "Sib Liquid",
+    "theme_version": "10.0.0",
+    "theme_author": "Throne",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Cart",
     "settings": [
       {
-        "type": "paragraph",
-        "content": "Theme settings allow designers to provide an easy way for any user to customize the look and feel of their shop without having to delve into HTML or CSS code. Please see our [help page on theme settings](http:\/\/docs.shopify.com\/themes\/theme-templates\/settings) to learn more about how you can make your theme customizable."
+        "type": "text",
+        "id": "cart_empty_text",
+        "label": "Empty cart text",
+        "default": "Your cart is empty",
+        "info": "This text displays when the cart is empty"
       }
     ]
   },
   {
-    "name": "Example setting",
+    "name": "Marquee",
     "settings": [
       {
-        "type": "header",
-        "content": "Example option"
+        "type": "color",
+        "id": "marquee_color",
+        "label": "Marquee Color",
+        "info": "Set the color for the Marquee"
+      },
+      {
+        "type": "number",
+        "id": "marquee_speed",
+        "label": "Marquee Speed",
+        "info": "Set the speed for the Marquee (0 - 100)"
+      },
+      {
+        "type": "text",
+        "id": "marquee_content",
+        "label": "Marquee Content",
+        "default": "our fabric is our honor let the last",
+        "info": "Set the content for the Marquee"
+      },
+      {
+        "type": "checkbox",
+        "id": "marquee_visible",
+        "label": "Show Marquee",
+        "default": true,
+        "info": "Check the box if you would like to show the marquee"
       }
     ]
   }

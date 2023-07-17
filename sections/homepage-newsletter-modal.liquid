@@ -1,0 +1,34 @@
+<div class="newsletter-modal">
+    <div class="newsletter-wrapper">
+
+        <div class="action-bar">
+            <div class="action-title">
+                <span>
+                    {{ settings.newsletter_title | default: 'newsletter' }}
+                </span>
+            </div>                   
+            <div class="newsletter-close" onClick={closeModal}>
+                <span>&times;</span>
+            </div>
+        </div>
+
+        <div class="newsletter-body">
+            <div class="warning">
+                <span>
+                    {{ settings.newsletter_warning | default: 'WARNING: SEVERE NECESSITY, \n IMMEDIATE ACTION REQUIRED' | newline_to_br }}
+                </span>
+            </div>
+
+            <div class="newsletter-form">
+                <form>
+                    <input type="email" placeholder="{{ settings.newsletter_input_placeholder | default: 'your email' }}" />
+                    <input type="submit" />
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

@@ -9,3 +9,5 @@
 /.bundle
 
 config.yml
+
+/node_modules/
